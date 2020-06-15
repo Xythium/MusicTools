@@ -58,7 +58,7 @@ namespace MusicTools
                 }
                 else
                 {
-                    artists.Add(artist);
+                    artists.Add(ForceCasing(artist));
                 }
             }
 
@@ -68,28 +68,31 @@ namespace MusicTools
         public static string ForceCasing(string s)
         {
             return
-                s.Replace("Mr. Bill", "Mr. Bill")
-                    .Replace("KUURO", "KUURO")
-                    .Replace("Mad Zach", "Mad Zach")
-                    .Replace("EDDIE", "EDDIE")
-                    .Replace("Vorso", "Vorso")
-                    .Replace("yunis", "yunis")
-                    .Replace("CHEE", "CHEE")
-                    .Replace("REZZ", "REZZ")
-                    .Replace("i_o", "i_o")
-                    .Replace("HEYZ", "HEYZ")
-                    .Replace("PROKO", "PROKO")
-                    .Replace("SKEW", "SKEW")
-                    .Replace("ZEKE BEATS", "ZEKE BEATS")
-                    .Replace("EPROM", "EPROM")
-                    .Replace("G Jones", "G Jones")
-                    .Replace("k?d", "k?d")
-                    .Replace("MOGUAI", "MOGUAI")
-                    .Replace("Monstergetdown", "Monstergetdown") // Monstergetdown?
-                    .Replace("Rhett", "Rhett")
-                    .Replace("Rinzen", "Rinzen")
-                    .Replace("TESTPILOT", "TESTPILOT")
-                    .Replace("deadmau5", "deadmau5");
+                s.Replace("Mr. BIll", "Mr. Bill")
+                    .Replace("Kuuro", "KUURO")
+                    .Replace("MAD ZACH", "Mad Zach")
+                    .Replace("Eddie", "EDDIE")
+                    .Replace("vorso", "Vorso")
+                    .Replace("Yunis", "yunis")
+                    .Replace("Chee", "CHEE")
+                    .Replace("Rezz", "REZZ")
+                    .Replace("I_O", "i_o")
+                    .Replace("HEYz", "HEYZ")
+                    .Replace("proko", "PROKO")
+                    .Replace("Skew", "SKEW")
+                    .Replace("Zeke Beats", "ZEKE BEATS")
+                    .Replace("Eprom", "EPROM")
+                    .Replace("G JONES", "G Jones")
+                    .Replace("K?D", "k?d")
+                    .Replace("Moguai", "MOGUAI")
+                    .Replace("monstergetdown", "Monstergetdown")
+                    .Replace("rhett", "Rhett")
+                    .Replace("RINZEN", "Rinzen")
+                    .Replace("testpilot", "TESTPILOT")
+                    .Replace("Attlas", "ATTLAS")
+                    .Replace("Blair Rouge", "BLAIR ROUGE")
+                    .Replace("Imanu", "IMANU")
+                    .Replace("Deadmau5", "deadmau5");
         }
     }
 }
