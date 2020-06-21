@@ -2,11 +2,15 @@
 
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
         <Title>MusicTools</Title>
         <Authors>Mark Thomas Bakker</Authors>
         <RepositoryUrl>https://github.com/Xythium/MusicTools</RepositoryUrl>
         <Company />
+        <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
+        <LangVersion>8</LangVersion>
+        <PackageVersion>1.1.0</PackageVersion>
+        <AssemblyVersion>1.1.0</AssemblyVersion>
+        <FileVersion>1.1.0</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
