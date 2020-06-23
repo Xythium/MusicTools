@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using MusicTools.Utils;
 
-namespace MusicTools
+namespace MusicTools.Parsing.Track
 {
     public static class TrackParser
     {
@@ -64,6 +65,7 @@ namespace MusicTools
         private const string CLOSE = "Close";
         private const string CLASSICAL = "Classical";
 
+        //TODO add these
         // Idm Beat VIP
         // Sellout Mix
         // Original Vocal Mix
@@ -77,18 +79,19 @@ namespace MusicTools
         // Original Mix
         // Techno Radio Edit
 
+        //TODO make this less bad
         public static TrackInfo GetTrackInfo(string artists, string title, string albumArtists, string album, DateTime date)
         {
             var info = new TrackInfo
             {
-                Artists = Artist.SplitArtists(artists),
+                Artists = ArtistUtils.SplitArtists(artists),
                 Features = new List<string>(),
                 Remixers = new List<string>(),
 
                 OriginalTitle = title,
 
                 Album = album,
-                AlbumArtists = Artist.SplitArtists(albumArtists),
+                AlbumArtists = ArtistUtils.SplitArtists(albumArtists),
 
                 ScrobbledDate = date
             };
@@ -108,7 +111,7 @@ namespace MusicTools
                     {
                         var featuresText = track.Substring(index + FEAT.Length + 1, endIndex - index - FEAT.Length - 1)
                             .Trim();
-                        info.Features.AddRange(Artist.SplitArtists(featuresText));
+                        info.Features.AddRange(ArtistUtils.SplitArtists(featuresText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -116,7 +119,7 @@ namespace MusicTools
                     {
                         var featuresText = track.Substring(index + PROD.Length + 1, endIndex - index - PROD.Length - 1)
                             .Trim();
-                        info.Features.AddRange(Artist.SplitArtists(featuresText));
+                        info.Features.AddRange(ArtistUtils.SplitArtists(featuresText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -144,7 +147,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - CLUB_MIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -177,7 +180,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - I_SAID_IT_AGAIN_REEDIT.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -185,7 +188,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - RE_EDIT.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -193,7 +196,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - EDIT.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -221,7 +224,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - VIP_REMIX.Length - 2)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -254,7 +257,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - CRUSHED_LYME_MIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -262,7 +265,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - EXTENDED_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -270,7 +273,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - EXTENDED_MIX2.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -278,7 +281,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - PRETENTIOUS_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -286,7 +289,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - MARTIAN_TRAPSTEP_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -294,7 +297,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - MATILDA_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -302,7 +305,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - OUTER_EDGES_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -310,7 +313,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - THRILLSEEKING_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -318,7 +321,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - _2014_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -326,7 +329,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - F_NO_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -334,7 +337,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - DOPEST_DOPE_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -342,7 +345,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - FEAR_IS_WEAKNESS_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -350,7 +353,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - DRIVECLUB_REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -358,7 +361,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - DROID_MIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -366,7 +369,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - REVIBE.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -374,7 +377,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - FLIP.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -382,7 +385,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - REIMAGINATION.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -390,7 +393,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - BOOTLEG.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -398,7 +401,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - REWORK.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -406,7 +409,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - REWIRE.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -414,7 +417,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - REMIX.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -422,7 +425,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - EXTENDED_DUB.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }
@@ -430,7 +433,7 @@ namespace MusicTools
                     {
                         var remixersText = track.Substring(index + 1, endIndex - index - DUB.Length - 1)
                             .Trim();
-                        info.Remixers.AddRange(Artist.SplitArtists(remixersText));
+                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
                         track = track.Remove(index, endIndex - index + 1)
                             .Trim();
                     }

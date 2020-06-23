@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MusicTools
+namespace MusicTools.Parsing.Track
 {
     public struct TrackInfo
     {

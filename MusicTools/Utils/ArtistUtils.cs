@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace MusicTools
+namespace MusicTools.Utils
 {
-    public static class Artist
+    public static class ArtistUtils
     {
         private const StringComparison COMPARISON_TYPE = StringComparison.OrdinalIgnoreCase;
 

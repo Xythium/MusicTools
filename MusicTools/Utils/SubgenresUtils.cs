@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace MusicTools
+namespace MusicTools.Utils
 {
-    public static class Subgenres
+    public static class SubgenresUtils
     {
         private static readonly Regex subgenreRegex = new Regex("/ | > | \\| ", RegexOptions.IgnoreCase);
 
