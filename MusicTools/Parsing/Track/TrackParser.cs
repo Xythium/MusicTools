@@ -37,7 +37,7 @@ namespace MusicTools.Parsing.Track
         private const string REMIX = "Remix";
         private const string EXTENDED_REMIX = "Extended Remix";
         private const string EXTENDED_MIX2 = "Extended Mix";
-        private const string PRETENTIOUS_REMIX = "'s 'Pretentious' Remix";
+        private const string PRETENTIOUS_REMIX = "'s Pretentious Remix";
         private const string MARTIAN_TRAPSTEP_REMIX = "'s Martian Trapstep Remix";
         private const string MATILDA_REMIX = "'s Matilda Remix";
         private const string OUTER_EDGES_REMIX = "'s 'Outer Edges' Remix";

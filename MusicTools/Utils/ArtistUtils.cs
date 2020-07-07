@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -30,7 +30,8 @@ namespace MusicTools.Utils
             "Case & Point",
             "Chase & Status",
             "Gent & Jawns",
-            "T & Sugah"
+            "T & Sugah",
+            "Jkyl & Hyde"
         };
 
         public static List<string> SplitArtists(string text)
