@@ -78,6 +78,9 @@ namespace MusicTools.Parsing.Track
         // Melodic Synthwork VIP
         // Original Mix
         // Techno Radio Edit
+        // x DJ Edit
+        // DJ Edit
+        // x 20:17 Edit
 
         //TODO make this less bad
         public static TrackInfo GetTrackInfo(string artists, string title, string albumArtists, string album, DateTime date)
@@ -101,7 +104,7 @@ namespace MusicTools.Parsing.Track
 
             try
             {
-                int index = 0;
+                var index = 0;
 
                 while (index < track.Length && (index = track.IndexOf("(", index, COMPARISON_TYPE)) >= 0)
                 {

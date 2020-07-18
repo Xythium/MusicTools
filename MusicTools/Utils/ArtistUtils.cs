@@ -72,10 +72,12 @@ namespace MusicTools.Utils
         public static string ForceCasing(string s)
         {
 #if NETCOREAPP
+            if (string.Equals(s, "EDDIE", COMPARISON_TYPE)) // scuffed "match whole word"
+                s = s.Replace("Eddie", "EDDIE", COMPARISON_TYPE);
+            
             return s.Replace("Mr. BIll", "Mr. Bill", COMPARISON_TYPE)
                 .Replace("Kuuro", "KUURO", COMPARISON_TYPE)
                 .Replace("MAD ZACH", "Mad Zach", COMPARISON_TYPE)
-                .Replace("Eddie", "EDDIE", COMPARISON_TYPE)
                 .Replace("vorso", "Vorso", COMPARISON_TYPE)
                 .Replace("Yunis", "yunis", COMPARISON_TYPE)
                 .Replace("Chee", "CHEE", COMPARISON_TYPE)
