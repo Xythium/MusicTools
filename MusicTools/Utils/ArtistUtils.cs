@@ -31,7 +31,9 @@ namespace MusicTools.Utils
             "Chase & Status",
             "Gent & Jawns",
             "T & Sugah",
-            "Jkyl & Hyde"
+            "Jkyl & Hyde",
+            "Brown & Gammon",
+            "Milo & Otis"
         };
 
         public static List<string> SplitArtists(string text)
@@ -69,64 +71,45 @@ namespace MusicTools.Utils
             return artists;
         }
 
+        // a lot of these are weird Last.Fm cases
+        private static readonly HashSet<string> artistCasingExceptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "EDDIE",
+            "Mr. Bill",
+            "KUURO",
+            "Mad Zach",
+            "Vorso",
+            "yunis",
+            "Chee", // todo: CHEE or Chee?
+            "i_o",
+            "HEYZ",
+            "PROKO",
+            "SKEW",
+            "ZEKE BEATS",
+            "EPROM",
+            "G Jones",
+            "k?d",
+            "MOGUAI",
+            "Monstergetdown",
+            "Rhett",
+            "Rinzen",
+            "TESTPILOT",
+            "BLAIR ROUGE",
+            "IMANU",
+            "deadmau5",
+        };
+
         public static string ForceCasing(string s)
         {
-#if NETCOREAPP
-            if (string.Equals(s, "EDDIE", COMPARISON_TYPE)) // scuffed "match whole word"
-                s = s.Replace("Eddie", "EDDIE", COMPARISON_TYPE);
-            
-            return s.Replace("Mr. BIll", "Mr. Bill", COMPARISON_TYPE)
-                .Replace("Kuuro", "KUURO", COMPARISON_TYPE)
-                .Replace("MAD ZACH", "Mad Zach", COMPARISON_TYPE)
-                .Replace("vorso", "Vorso", COMPARISON_TYPE)
-                .Replace("Yunis", "yunis", COMPARISON_TYPE)
-                .Replace("Chee", "CHEE", COMPARISON_TYPE)
-                .Replace("Rezz", "REZZ", COMPARISON_TYPE)
-                .Replace("I_O", "i_o", COMPARISON_TYPE)
-                .Replace("HEYz", "HEYZ", COMPARISON_TYPE)
-                .Replace("proko", "PROKO", COMPARISON_TYPE)
-                .Replace("Skew", "SKEW", COMPARISON_TYPE)
-                .Replace("Zeke Beats", "ZEKE BEATS", COMPARISON_TYPE)
-                .Replace("Eprom", "EPROM", COMPARISON_TYPE)
-                .Replace("G JONES", "G Jones", COMPARISON_TYPE)
-                .Replace("K?D", "k?d", COMPARISON_TYPE)
-                .Replace("Moguai", "MOGUAI", COMPARISON_TYPE)
-                .Replace("monstergetdown", "Monstergetdown", COMPARISON_TYPE)
-                .Replace("rhett", "Rhett", COMPARISON_TYPE)
-                .Replace("RINZEN", "Rinzen", COMPARISON_TYPE)
-                .Replace("testpilot", "TESTPILOT", COMPARISON_TYPE)
-                .Replace("Attlas", "ATTLAS", COMPARISON_TYPE)
-                .Replace("Blair Rouge", "BLAIR ROUGE", COMPARISON_TYPE)
-                .Replace("Imanu", "IMANU", COMPARISON_TYPE)
-                .Replace("Deadmau5", "deadmau5", COMPARISON_TYPE);
+#if NETSTANDARD2_0
 #else
-             return s.Replace("Mr. BIll", "Mr. Bill")
-                .Replace("Kuuro", "KUURO")
-                .Replace("MAD ZACH", "Mad Zach")
-                .Replace("Eddie", "EDDIE")
-                .Replace("vorso", "Vorso")
-                .Replace("Yunis", "yunis")
-                .Replace("Chee", "CHEE")
-                .Replace("Rezz", "REZZ")
-                .Replace("I_O", "i_o")
-                .Replace("HEYz", "HEYZ")
-                .Replace("proko", "PROKO")
-                .Replace("Proko", "PROKO")
-                .Replace("Skew", "SKEW")
-                .Replace("Zeke Beats", "ZEKE BEATS")
-                .Replace("Eprom", "EPROM")
-                .Replace("G JONES", "G Jones")
-                .Replace("K?D", "k?d")
-                .Replace("Moguai", "MOGUAI")
-                .Replace("monstergetdown", "Monstergetdown")
-                .Replace("rhett", "Rhett")
-                .Replace("RINZEN", "Rinzen")
-                .Replace("testpilot", "TESTPILOT")
-                .Replace("Attlas", "ATTLAS")
-                .Replace("Blair Rouge", "BLAIR ROUGE")
-                .Replace("Imanu", "IMANU")
-                .Replace("Deadmau5", "deadmau5");
+            if (artistCasingExceptions.TryGetValue(s, out var name))
+            {
+                s = s.Replace(s, name);
+            }
 #endif
+
+            return s;
         }
     }
 }
