@@ -97,11 +97,40 @@ namespace MusicTools.Utils
             "BLAIR ROUGE",
             "IMANU",
             "deadmau5",
+            "COPYCATT",
+            "Conro",
+            "Run DMT",
+            "Monuman",
+            "Vellum",
+            "REZZ",
+            "JOYRYDE",
+            "JUMPBEAR",
+            "donkfloor",
+            "OaT",
+            "Ding",
+            "Bleep Bloop",
+            "BLiSS",
+            "RefraQ",
+            "BYOR",
+            "Kindrid",
+            "Morelia",
+            "ALEPH",
+            "REAPER",
+            "BOATS",
+            "ASHE",
+            "FLIP-FLOP",
+            "KEETZ",
+            "ATTLAS",
+            "SOFI",
         };
 
         public static string ForceCasing(string s)
         {
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 //BUG: dunno what is going on here
+            foreach (var x in artistCasingExceptions)
+            {
+                s = s.Replace(s, x);
+            }
 #else
             if (artistCasingExceptions.TryGetValue(s, out var name))
             {
