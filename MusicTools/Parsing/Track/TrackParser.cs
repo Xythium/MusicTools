@@ -9,78 +9,52 @@ namespace MusicTools.Parsing.Track
     {
         private static readonly Regex spotifyGay = new Regex("(.+) - ((.+) Remix)", RegexOptions.IgnoreCase);
 
-        private const string FEAT = "feat.";
-        private const string PROD = "prod.";
-        private const string EXTENDED_MIX = "Extended Mix";
-        private const string EXTENDED_EDIT = "Extended Edit";
-        private const string CLUB_MIX = "Club Mix";
-        private const string CLUB_EDIT = "Club Edit";
-        private const string ORIGINAL_CLUB_MIX = "Original Club Mix";
-        private const string EDIT = "Edit";
-        private const string I_SAID_IT_AGAIN_REEDIT = "'I Said It Again' ReEdit";
-        private const string RE_EDIT = "Re-Edit";
-        private const string RADIO_EDIT = "Radio Edit";
-        private const string LIVE_EDIT = "Live Edit";
-        private const string ALT_ENDING = "Alt. Ending";
-        private const string AMBIENT_INTRO_MIX = "Ambient Intro Mix";
-        private const string ORCHESTRAL_VERSION = "Orchestral Version";
-        private const string REPRISE = "Reprise";
-        private const string VIP = "VIP";
-        private const string VIP_MIX = "VIP Mix";
-        private const string VIP_REMIX = "VIP Remix";
-        private const string ALT_VERSION_LC = "alt. version";
-        private const string INSTRUMENTAL_MIX = "Instrumental Mix";
-        private const string EXTENDED_INSTRUMENTAL_MIX = "Extended Instrumental Mix";
-        private const string DROP_THE_POPTART_EDIT = "Drop The Poptart Edit";
-        private const string CRUSHED_LYME_MIX = "'s Crushed Lyme Mix";
-        private const string LYVE_AT_BRIXTON_EDIT = "Lyve at Brixton Edit";
-        private const string REMIX = "Remix";
-        private const string EXTENDED_REMIX = "Extended Remix";
-        private const string EXTENDED_MIX2 = "Extended Mix";
-        private const string PRETENTIOUS_REMIX = "'s Pretentious Remix";
-        private const string MARTIAN_TRAPSTEP_REMIX = "'s Martian Trapstep Remix";
-        private const string MATILDA_REMIX = "'s Matilda Remix";
-        private const string OUTER_EDGES_REMIX = "'s 'Outer Edges' Remix";
-        private const string THRILLSEEKING_REMIX = "'s Thrillseeking Remix";
-        private const string _2014_REMIX = "2014 Remix";
-        private const string F_NO_REMIX = "F No Remix";
-        private const string DOPEST_DOPE_REMIX = "'s Dopest Dope Remix";
-        private const string FEAR_IS_WEAKNESS_REMIX = "'s Fear is Weakness Remix";
-        private const string DRIVECLUB_REMIX = "Driveclub Remix";
-        private const string DROID_MIX = "Droid Mix";
-        private const string REVIBE = "ReVibe";
-        private const string FLIP = "Flip";
-        private const string REIMAGINATION = "Reimagination";
-        private const string BOOTLEG = "Bootleg";
-        private const string REWORK = "Rework";
-        private const string REWIRE = "Rewire";
-        private const string EXTENDED_DUB = "Extended Dub";
-        private const string DUB = "Dub";
-        private const string INTRO = "Intro";
-        private const string OV = "ov";
-        private const string ALT_VERSION = "Alt Version";
-        private const string LISTEN_TO_TECHNO = "Listen to Techno";
-        private const string INSTRUMENTAL = "Instrumental";
-        private const string INTERLUDE = "Interlude";
-        private const string CLOSE = "Close";
-        private const string CLASSICAL = "Classical";
+        //TODO look at these
+        // (ShockOne Instrumental Mix)
+        // Follow You (Fractal Chill Mix) [feat. Danyka Nadeau]
+        // Departed (Boy Kid Cloud VIP)
+        // Alone (Streex Remake)
+        // Hold Your Breath (Vorso Instrumental Mix)
+        // Inside (Ekcle Edition)
+        // Pomegranate (Carl Cox Dub Mix)
 
-        //TODO add these
-        // Idm Beat VIP
-        // Sellout Mix
-        // Original Vocal Mix
-        // Drum and Bass VIP Mix
-        // 2015 Remaster
-        // Synthapella Version
-        // Acoustic Mix
-        // Kendall VIP
-        // Pulser VIP
-        // Melodic Synthwork VIP
-        // Original Mix
-        // Techno Radio Edit
-        // x DJ Edit
-        // DJ Edit
-        // x 20:17 Edit
+        private static readonly List<TrackPart> parts = new List<TrackPart>
+        {
+            new TrackPartStart("feat."), // (feat. XXX)
+            new TrackPartStart("prod."), // (prod. XXX)
+            new TrackPartEnd("Club Mix"), // (XXX Club Mix) BUG: Original Club Mix?
+            new TrackPartEnd("'I Said It Again' ReEdit"), // (XXX 'I Said It Again' ReEdit)
+            new TrackPartEnd("Re-Edit"), // (XXX Re-Edit)
+            new TrackPartSkip("8 Minute Edit"), // (8 Minute Edit)
+            new TrackPartSkip("2nd Edit"), // (2nd Edit)
+            new TrackPartEnd("20:17 Edit"), // (XXX 20:17 Edit)
+            new TrackPartEnd("DJ Edit"), // (XXX DJ Edit)
+            new TrackPartEnd("Edit"), // (XXX Edit)
+            new TrackPartEnd("VIP Remix"), // (XXX VIP Remix)
+            new TrackPartEnd("'s Crushed Lyme Mix"), // (XXX's Crushed Lyme Mix)
+            new TrackPartEnd("Extended Remix"), // (XXX Extended Remix)
+            new TrackPartEnd("Extended Mix"), // (XXX Extended Mix)
+            new TrackPartEnd("'s Pretentious Remix"), // (XXX's Pretentious Remix)
+            new TrackPartEnd("'s Martian Trapstep Remix"), // (XXX's Martian Trapstep Remix)
+            new TrackPartEnd("'s Matilda Remix"), // (XXX's Matilda Remix)
+            new TrackPartEnd("'s 'Outer Edges' Remix"), // (XXX's 'Outer Edges' Remix)
+            new TrackPartEnd("'s Thrillseeking Remix"), // (XXX's Thrillseeking Remix)
+            new TrackPartEnd("2014 Remix"), // (XXX 2014 Remix)
+            new TrackPartEnd("F No Remix"), // (XXX F No Remix)
+            new TrackPartEnd("'s Dopest Dope Remix"), // (XXX's Dopest Dope Remix)
+            new TrackPartEnd("'s Fear Is Weakness Remix"), // (XXX's Fear Is Weakness Remix)
+            new TrackPartEnd("Driveclub Remix"), // (XXX Driveclub Remix)
+            new TrackPartEnd("Droid Mix"), // (XXX Droid Mix)
+            new TrackPartEnd("ReVibe"), // (XXX ReVibe)
+            new TrackPartEnd("Flip"), // (XXX Flip)
+            new TrackPartEnd("Reimagination"), // (XXX Reimagination)
+            new TrackPartEnd("Bootleg"), // (XXX Bootleg)
+            new TrackPartEnd("Rework"), // (XXX Rework)
+            new TrackPartEnd("Rewire"), // (XXX Rewire)
+            new TrackPartEnd("Remix"), // (XXX Remix)
+            new TrackPartEnd("Extended Dub"), // (XXX Extended Dub)
+            new TrackPartEnd("Dub"), // (XXX Dub)
+        };
 
         //TODO make this less bad
         public static TrackInfo GetTrackInfo(string artists, string title, string albumArtists, string album, DateTime date)
@@ -104,386 +78,35 @@ namespace MusicTools.Parsing.Track
 
             try
             {
-                var index = 0;
+                var startIndex = 0;
 
-                while (index < track.Length && (index = track.IndexOf("(", index, COMPARISON_TYPE)) >= 0)
+                while (startIndex < track.Length && (startIndex = track.IndexOf("(", startIndex, COMPARISON_TYPE)) >= 0)
                 {
-                    var endIndex = track.IndexOf(")", index, COMPARISON_TYPE);
+                    var endIndex = track.IndexOf(")", startIndex, COMPARISON_TYPE);
 
-                    if (index + 1 + FEAT.Length < track.Length && string.Equals(track.Substring(index + 1, FEAT.Length), FEAT, COMPARISON_TYPE))
+                    if (endIndex < startIndex)
                     {
-                        var featuresText = track.Substring(index + FEAT.Length + 1, endIndex - index - FEAT.Length - 1)
-                            .Trim();
-                        info.Features.AddRange(ArtistUtils.SplitArtists(featuresText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
+                        Console.WriteLine($"error parsing '{info.OriginalTitle}': malformed brackets");
+                        startIndex += 1;
                     }
-                    else if (index + 1 + PROD.Length < track.Length && string.Equals(track.Substring(index + 1, PROD.Length), PROD, COMPARISON_TYPE))
+
+                    var noMatch = true;
+
+                    foreach (var part in parts)
                     {
-                        var featuresText = track.Substring(index + PROD.Length + 1, endIndex - index - PROD.Length - 1)
-                            .Trim();
-                        info.Features.AddRange(ArtistUtils.SplitArtists(featuresText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
+                        var found = part.Process(info, ref startIndex, ref endIndex, ref track, COMPARISON_TYPE);
+
+                        if (found)
+                        {
+                            noMatch = false;
+                            break;
+                        }
                     }
-                    else if (index + 1 + EXTENDED_MIX.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), EXTENDED_MIX, COMPARISON_TYPE))
+
+                    if (noMatch)
                     {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + EXTENDED_EDIT.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), EXTENDED_EDIT, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + ORIGINAL_CLUB_MIX.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), ORIGINAL_CLUB_MIX, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + CLUB_EDIT.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), CLUB_EDIT, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - CLUB_MIX.Length >= 0 && string.Equals(track.Substring(endIndex - CLUB_MIX.Length, CLUB_MIX.Length), CLUB_MIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - CLUB_MIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + CLUB_MIX.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), CLUB_MIX, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + RADIO_EDIT.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), RADIO_EDIT, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + LIVE_EDIT.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), LIVE_EDIT, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + DROP_THE_POPTART_EDIT.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), DROP_THE_POPTART_EDIT, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + LYVE_AT_BRIXTON_EDIT.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), LYVE_AT_BRIXTON_EDIT, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - I_SAID_IT_AGAIN_REEDIT.Length >= 0 && endIndex - I_SAID_IT_AGAIN_REEDIT.Length >= 0 && string.Equals(track.Substring(endIndex - I_SAID_IT_AGAIN_REEDIT.Length, I_SAID_IT_AGAIN_REEDIT.Length), I_SAID_IT_AGAIN_REEDIT, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - I_SAID_IT_AGAIN_REEDIT.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - RE_EDIT.Length >= 0 && string.Equals(track.Substring(endIndex - RE_EDIT.Length, RE_EDIT.Length), RE_EDIT, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - RE_EDIT.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - EDIT.Length >= 0 && string.Equals(track.Substring(endIndex - EDIT.Length, EDIT.Length), EDIT, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - EDIT.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + ALT_ENDING.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), ALT_ENDING, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + AMBIENT_INTRO_MIX.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), AMBIENT_INTRO_MIX, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + ORCHESTRAL_VERSION.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), ORCHESTRAL_VERSION, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + REPRISE.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), REPRISE, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - VIP_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - VIP_REMIX.Length, VIP_REMIX.Length), VIP_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - VIP_REMIX.Length - 2)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + VIP_MIX.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), VIP_MIX, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + VIP.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), VIP, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + ALT_VERSION_LC.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), ALT_VERSION_LC, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + EXTENDED_INSTRUMENTAL_MIX.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), EXTENDED_INSTRUMENTAL_MIX, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + INSTRUMENTAL_MIX.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), INSTRUMENTAL_MIX, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - CRUSHED_LYME_MIX.Length >= 0 && string.Equals(track.Substring(endIndex - CRUSHED_LYME_MIX.Length, CRUSHED_LYME_MIX.Length), CRUSHED_LYME_MIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - CRUSHED_LYME_MIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - EXTENDED_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - EXTENDED_REMIX.Length, EXTENDED_REMIX.Length), EXTENDED_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - EXTENDED_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - EXTENDED_MIX2.Length >= 0 && string.Equals(track.Substring(endIndex - EXTENDED_MIX2.Length, EXTENDED_MIX2.Length), EXTENDED_MIX2, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - EXTENDED_MIX2.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - PRETENTIOUS_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - PRETENTIOUS_REMIX.Length, PRETENTIOUS_REMIX.Length), PRETENTIOUS_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - PRETENTIOUS_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - MARTIAN_TRAPSTEP_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - MARTIAN_TRAPSTEP_REMIX.Length, MARTIAN_TRAPSTEP_REMIX.Length), MARTIAN_TRAPSTEP_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - MARTIAN_TRAPSTEP_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - MATILDA_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - MATILDA_REMIX.Length, MATILDA_REMIX.Length), MATILDA_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - MATILDA_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - OUTER_EDGES_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - OUTER_EDGES_REMIX.Length, OUTER_EDGES_REMIX.Length), OUTER_EDGES_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - OUTER_EDGES_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - THRILLSEEKING_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - THRILLSEEKING_REMIX.Length, THRILLSEEKING_REMIX.Length), THRILLSEEKING_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - THRILLSEEKING_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - _2014_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - _2014_REMIX.Length, _2014_REMIX.Length), _2014_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - _2014_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - F_NO_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - F_NO_REMIX.Length, F_NO_REMIX.Length), F_NO_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - F_NO_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - DOPEST_DOPE_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - DOPEST_DOPE_REMIX.Length, DOPEST_DOPE_REMIX.Length), DOPEST_DOPE_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - DOPEST_DOPE_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - FEAR_IS_WEAKNESS_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - FEAR_IS_WEAKNESS_REMIX.Length, FEAR_IS_WEAKNESS_REMIX.Length), FEAR_IS_WEAKNESS_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - FEAR_IS_WEAKNESS_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - DRIVECLUB_REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - DRIVECLUB_REMIX.Length, DRIVECLUB_REMIX.Length), DRIVECLUB_REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - DRIVECLUB_REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - DROID_MIX.Length >= 0 && string.Equals(track.Substring(endIndex - DROID_MIX.Length, DROID_MIX.Length), DROID_MIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - DROID_MIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - REVIBE.Length >= 0 && string.Equals(track.Substring(endIndex - REVIBE.Length, REVIBE.Length), REVIBE, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - REVIBE.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - FLIP.Length >= 0 && string.Equals(track.Substring(endIndex - FLIP.Length, FLIP.Length), FLIP, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - FLIP.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - REIMAGINATION.Length >= 0 && string.Equals(track.Substring(endIndex - REIMAGINATION.Length, REIMAGINATION.Length), REIMAGINATION, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - REIMAGINATION.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - BOOTLEG.Length >= 0 && string.Equals(track.Substring(endIndex - BOOTLEG.Length, BOOTLEG.Length), BOOTLEG, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - BOOTLEG.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - REWORK.Length >= 0 && string.Equals(track.Substring(endIndex - REWORK.Length, REWORK.Length), REWORK, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - REWORK.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - REWIRE.Length >= 0 && string.Equals(track.Substring(endIndex - REWIRE.Length, REWIRE.Length), REWIRE, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - REWIRE.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - REMIX.Length >= 0 && string.Equals(track.Substring(endIndex - REMIX.Length, REMIX.Length), REMIX, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - REMIX.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - EXTENDED_DUB.Length >= 0 && string.Equals(track.Substring(endIndex - EXTENDED_DUB.Length, EXTENDED_DUB.Length), EXTENDED_DUB, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - EXTENDED_DUB.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (endIndex - DUB.Length >= 0 && string.Equals(track.Substring(endIndex - DUB.Length, DUB.Length), DUB, COMPARISON_TYPE))
-                    {
-                        var remixersText = track.Substring(index + 1, endIndex - index - DUB.Length - 1)
-                            .Trim();
-                        info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + INTRO.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), INTRO, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + OV.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), OV, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + ALT_VERSION.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), ALT_VERSION, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + LISTEN_TO_TECHNO.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), LISTEN_TO_TECHNO, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + INSTRUMENTAL.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), INSTRUMENTAL, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + INTERLUDE.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), INTERLUDE, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + CLOSE.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), CLOSE, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else if (index + 1 + CLASSICAL.Length < track.Length && string.Equals(track.Substring(index + 1, endIndex - index - 1), CLASSICAL, COMPARISON_TYPE))
-                    {
-                        track = track.Remove(index, endIndex - index + 1)
-                            .Trim();
-                    }
-                    else
-                    {
-                        Console.WriteLine($"!!!: {track.Substring(index + 1, endIndex - index - 1)}");
-                        index = endIndex;
+                        Console.WriteLine($"info parsing '{info.OriginalTitle}': unknown pattern");
+                        startIndex = endIndex;
                     }
                 }
             }
@@ -495,5 +118,72 @@ namespace MusicTools.Parsing.Track
             info.ProcessedTitle = track.Trim();
             return info;
         }
+    }
+
+    internal class TrackPartSkip : TrackPart
+    {
+        private readonly string check;
+
+        public TrackPartSkip(string str) { check = str; }
+
+        internal override bool Process(TrackInfo info, ref int startIndex, ref int endIndex, ref string piece, StringComparison comparisonType)
+        {
+            if (startIndex + 1 + check.Length < piece.Length && string.Equals(piece.Substring(startIndex + 1, check.Length), check, comparisonType))
+            {
+                startIndex = endIndex;
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    internal class TrackPartStart : TrackPart
+    {
+        private readonly string check;
+
+        public TrackPartStart(string str) { check = str; }
+
+        internal override bool Process(TrackInfo info, ref int startIndex, ref int endIndex, ref string piece, StringComparison comparisonType)
+        {
+            if (startIndex + 1 + check.Length < piece.Length && string.Equals(piece.Substring(startIndex + 1, check.Length), check, comparisonType))
+            {
+                var featuresText = piece.Substring(startIndex + check.Length + 1, endIndex - startIndex - check.Length - 1)
+                    .Trim();
+                info.Features.AddRange(ArtistUtils.SplitArtists(featuresText));
+                piece = piece.Remove(startIndex, endIndex - startIndex + 1)
+                    .Trim();
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    internal class TrackPartEnd : TrackPart
+    {
+        private readonly string check;
+
+        public TrackPartEnd(string str) { check = str; }
+
+        internal override bool Process(TrackInfo info, ref int startIndex, ref int endIndex, ref string piece, StringComparison comparisonType)
+        {
+            if (endIndex - check.Length >= 0 && string.Equals(piece.Substring(endIndex - check.Length, check.Length), check, comparisonType))
+            {
+                var remixersText = piece.Substring(startIndex + 1, endIndex - startIndex - check.Length - 1)
+                    .Trim();
+                info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
+                piece = piece.Remove(startIndex, endIndex - startIndex + 1)
+                    .Trim();
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    internal abstract class TrackPart
+    {
+        internal abstract bool Process(TrackInfo info, ref int startIndex, ref int endIndex, ref string piece, StringComparison comparisonType);
     }
 }
