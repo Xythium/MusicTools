@@ -7,22 +7,21 @@ namespace MusicTools.Parsing.Track
 {
     public static class TrackParser
     {
-        private static readonly Regex spotifyGay = new Regex("(.+) - ((.+) Remix)", RegexOptions.IgnoreCase);
+        private static readonly Regex spotifyBad = new Regex("(.+) - ((.+) Remix)", RegexOptions.IgnoreCase);
 
         //TODO look at these
         // (ShockOne Instrumental Mix)
         // Follow You (Fractal Chill Mix) [feat. Danyka Nadeau]
         // Departed (Boy Kid Cloud VIP)
-        // Alone (Streex Remake)
         // Hold Your Breath (Vorso Instrumental Mix)
-        // Inside (Ekcle Edition)
-        // Pomegranate (Carl Cox Dub Mix)
 
         private static readonly List<TrackPart> parts = new List<TrackPart>
         {
             new TrackPartStart("feat."), // (feat. XXX)
             new TrackPartStart("prod."), // (prod. XXX)
-            new TrackPartEnd("Club Mix"), // (XXX Club Mix) BUG: Original Club Mix?
+            new TrackPartEnd("Dub Mix"), // (XXX Dub Mix)
+            new TrackPartSkip("Original Club Mix"), // (XXX Original Club Mix)
+            new TrackPartEnd("Club Mix"), // (XXX Club Mix)
             new TrackPartEnd("'I Said It Again' ReEdit"), // (XXX 'I Said It Again' ReEdit)
             new TrackPartEnd("Re-Edit"), // (XXX Re-Edit)
             new TrackPartSkip("8 Minute Edit"), // (8 Minute Edit)
@@ -31,6 +30,7 @@ namespace MusicTools.Parsing.Track
             new TrackPartEnd("DJ Edit"), // (XXX DJ Edit)
             new TrackPartEnd("Edit"), // (XXX Edit)
             new TrackPartEnd("VIP Remix"), // (XXX VIP Remix)
+            new TrackPartEnd("VIP"), // (XXX VIP)
             new TrackPartEnd("'s Crushed Lyme Mix"), // (XXX's Crushed Lyme Mix)
             new TrackPartEnd("Extended Remix"), // (XXX Extended Remix)
             new TrackPartEnd("Extended Mix"), // (XXX Extended Mix)
@@ -52,6 +52,9 @@ namespace MusicTools.Parsing.Track
             new TrackPartEnd("Rework"), // (XXX Rework)
             new TrackPartEnd("Rewire"), // (XXX Rewire)
             new TrackPartEnd("Remix"), // (XXX Remix)
+            new TrackPartEnd("Remake"), // (XXX Remake)
+            new TrackPartEnd("Edition"), // (XXX Edition) //todo: maybe sketchy
+            new TrackPartEnd("Old School Deconstruction"), // (XXX Old School Deconstruction)
             new TrackPartEnd("Extended Dub"), // (XXX Extended Dub)
             new TrackPartEnd("Dub"), // (XXX Dub)
         };
@@ -73,16 +76,48 @@ namespace MusicTools.Parsing.Track
                 ScrobbledDate = date
             };
 
-            var track = spotifyGay.Replace(title, "$1 ($3 Remix)");
+            var track = spotifyBad.Replace(title, "$1 ($3 Remix)");
             const StringComparison COMPARISON_TYPE = StringComparison.OrdinalIgnoreCase;
 
             try
             {
                 var startIndex = 0;
 
-                while (startIndex < track.Length && (startIndex = track.IndexOf("(", startIndex, COMPARISON_TYPE)) >= 0)
+                while (startIndex < track.Length /*&& startIndex >= 0 */ && (startIndex = track.IndexOf("(", startIndex, COMPARISON_TYPE)) >= 0)
                 {
                     var endIndex = track.IndexOf(")", startIndex, COMPARISON_TYPE);
+
+                    if (endIndex < startIndex)
+                    {
+                        Console.WriteLine($"error parsing '{info.OriginalTitle}': malformed brackets");
+                        startIndex += 1;
+                    }
+
+                    var noMatch = true;
+
+                    foreach (var part in parts)
+                    {
+                        var found = part.Process(info, ref startIndex, ref endIndex, ref track, COMPARISON_TYPE);
+
+                        if (found)
+                        {
+                            noMatch = false;
+                            break;
+                        }
+                    }
+
+                    if (noMatch)
+                    {
+                        Console.WriteLine($"info parsing '{info.OriginalTitle}': unknown pattern");
+                        startIndex = endIndex;
+                    }
+                }
+
+                startIndex = 0;
+
+                while (startIndex < track.Length && (startIndex = track.IndexOf("[", startIndex, COMPARISON_TYPE)) >= 0)
+                {
+                    var endIndex = track.IndexOf("]", startIndex, COMPARISON_TYPE);
 
                     if (endIndex < startIndex)
                     {
