@@ -24,6 +24,10 @@ namespace MusicTools.Parsing.Track
             new TrackPartEnd("Club Mix"), // (XXX Club Mix)
             new TrackPartEnd("'I Said It Again' ReEdit"), // (XXX 'I Said It Again' ReEdit)
             new TrackPartEnd("Re-Edit"), // (XXX Re-Edit)
+          //  new TrackPartSkip("Afterhours Mix"), // (Afterhours Mix)
+            new TrackPartSkip("Extended Edit"), // (Extended Edit)
+            new TrackPartSkip("Radio Edit"), // (Radio Edit)
+            new TrackPartSkip("Club Edit"), // (Club Edit)
             new TrackPartSkip("8 Minute Edit"), // (8 Minute Edit)
             new TrackPartSkip("2nd Edit"), // (2nd Edit)
             new TrackPartEnd("20:17 Edit"), // (XXX 20:17 Edit)
@@ -32,6 +36,7 @@ namespace MusicTools.Parsing.Track
             new TrackPartEnd("VIP Remix"), // (XXX VIP Remix)
             new TrackPartEnd("VIP"), // (XXX VIP)
             new TrackPartEnd("'s Crushed Lyme Mix"), // (XXX's Crushed Lyme Mix)
+            new TrackPartEnd("20:17 Remix"), // (XXX 20:17 Remix)
             new TrackPartEnd("Extended Remix"), // (XXX Extended Remix)
             new TrackPartEnd("Extended Mix"), // (XXX Extended Mix)
             new TrackPartEnd("'s Pretentious Remix"), // (XXX's Pretentious Remix)
@@ -59,9 +64,18 @@ namespace MusicTools.Parsing.Track
             new TrackPartEnd("Dub"), // (XXX Dub)
         };
 
+        private static Dictionary<int, TrackInfo> cache = new Dictionary<int, TrackInfo>();
+
         //TODO make this less bad
         public static TrackInfo GetTrackInfo(string artists, string title, string albumArtists, string album, DateTime date)
         {
+            var key = (artists + title + albumArtists + album).GetHashCode();
+
+            if (cache.TryGetValue(key, out var cached))
+            {
+                return cached;
+            }
+
             var info = new TrackInfo
             {
                 Artists = ArtistUtils.SplitArtists(artists),
@@ -76,7 +90,7 @@ namespace MusicTools.Parsing.Track
                 ScrobbledDate = date
             };
 
-            var track = spotifyBad.Replace(title, "$1 ($3 Remix)");
+            var track = spotifyBad.Replace(title, "$1 ($3 Remix)"); //todo: slow, make this work like it does with brackets
             const StringComparison COMPARISON_TYPE = StringComparison.OrdinalIgnoreCase;
 
             try
@@ -151,6 +165,9 @@ namespace MusicTools.Parsing.Track
             }
 
             info.ProcessedTitle = track.Trim();
+
+            cache.Add(key, info);
+
             return info;
         }
     }

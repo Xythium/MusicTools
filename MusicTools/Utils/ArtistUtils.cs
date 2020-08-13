@@ -89,6 +89,7 @@ namespace MusicTools.Utils
             "Chee", // todo: CHEE or Chee?
             "Conro",
             "COPYCATT",
+            "darkDARK",
             "deadmau5",
             "Ding",
             "Dj Ride",
@@ -149,6 +150,10 @@ namespace MusicTools.Utils
             "x_x",
             "yunis",
             "ZEKE BEATS",
+            "RBSH",
+            "ÆTERNA",
+            "ABIS",
+            "DotCrawL"
         };
 
         public static string ForceCasing(string s)
