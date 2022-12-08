@@ -6,13 +6,13 @@
         <Authors>Mark Thomas Bakker</Authors>
         <RepositoryUrl>https://github.com/Xythium/MusicTools</RepositoryUrl>
         <Company />
-        <TargetFrameworks>net472;net48;netstandard2.0;netstandard2.1;netcoreapp2.2;netcoreapp3.1</TargetFrameworks>
-        <LangVersion>8</LangVersion>
-        <PackageVersion>1.4.6</PackageVersion>
-        <AssemblyVersion>1.4.6</AssemblyVersion>
-        <FileVersion>1.4.6</FileVersion>
+        <LangVersion>preview</LangVersion>
+        <PackageVersion>1.4.8.6</PackageVersion>
+        <AssemblyVersion>1.4.8.6</AssemblyVersion>
+        <FileVersion>1.4.8.6</FileVersion>
         <NeutralLanguage>en</NeutralLanguage>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <TargetFramework>net7.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>

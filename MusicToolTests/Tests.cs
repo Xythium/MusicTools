@@ -104,10 +104,10 @@ namespace MusicToolTests
             Assert.AreEqual(emptyStringList, info.Remixers);
             Assert.AreEqual("Ego Death", info.ProcessedTitle);
         }
-        
+
         [Test]
         public void TrackParser_Title5()
-        {	
+        {
             var info = TrackParser.GetTrackInfo("Monstergetdown", "maybe nothing (Extended Edit)", "Monstergetdown", "maybe nothing (Extended Edit)", DateTime.Now);
             Assert.AreEqual(new List<string>
             {
@@ -120,7 +120,7 @@ namespace MusicToolTests
 
         [Test]
         public void TrackParser_Title6()
-        {		
+        {
             var info = TrackParser.GetTrackInfo("BUDD", "Triangular (Radio Edit)", "BUDD", "Triangular", DateTime.Now);
             Assert.AreEqual(new List<string>
             {
@@ -130,10 +130,10 @@ namespace MusicToolTests
             Assert.AreEqual(emptyStringList, info.Remixers);
             Assert.AreEqual("Triangular (Radio Edit)", info.ProcessedTitle); //bug make this "Triangular" + "Radio Edit" subtitle
         }
-        
+
         [Test]
         public void TrackParser_Title7()
-        {			
+        {
             var info = TrackParser.GetTrackInfo("deadmau5", "Strobe (Club Edit)", "deadmau5", "Strobe", DateTime.Now);
             Assert.AreEqual(new List<string>
             {
@@ -212,10 +212,10 @@ namespace MusicToolTests
             }, info.Remixers);
             Assert.AreEqual("All Night", info.ProcessedTitle);
         }
-        
+
         [Test]
         public void TrackParser_Remix5()
-        {	
+        {
             var info = TrackParser.GetTrackInfo("Wingz", "I Got (Vorso 20:17 Remix)", "Vorso", "", DateTime.Now);
             Assert.AreEqual(new List<string>
             {
