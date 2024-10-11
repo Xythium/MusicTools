@@ -7,16 +7,23 @@
         <RepositoryUrl>https://github.com/Xythium/MusicTools</RepositoryUrl>
         <Company />
         <LangVersion>preview</LangVersion>
-        <PackageVersion>1.4.8.6</PackageVersion>
-        <AssemblyVersion>1.4.8.6</AssemblyVersion>
-        <FileVersion>1.4.8.6</FileVersion>
+        <PackageVersion>1.4.8.8</PackageVersion>
+        <AssemblyVersion>1.4.8.8</AssemblyVersion>
+        <FileVersion>1.4.8.8</FileVersion>
         <NeutralLanguage>en</NeutralLanguage>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFrameworks>net481;net7.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
       <Folder Include="Properties" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="PolySharp" Version="1.12.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
     
 </Project>
