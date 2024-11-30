@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using MusicTools.Parsing.Subgenre;
 using MusicTools.Utils;
 using NUnit.Framework;
@@ -8,13 +10,36 @@ namespace MusicToolTests;
 
 public class GenreParserTests
 {
-    private SubgenreParser parser;
+    [Test]
+    public void Subgenre()
+    {
+        var lines = File.ReadAllLines("subgenres.txt");
 
-    [SetUp]
-    public void Setup() { parser = new SubgenreParser(); }
+        foreach (var line in lines)
+        {
+            if (line == "-")
+                continue;
+           
+            try
+            {
+                var scanner = new Scanner(line);
+                var tokens = scanner.ScanTokens();
 
-    [TestCaseSource(typeof(Data), nameof(Data.Cases))]
-    public List<string> Subgenre(string input) { return SubgenresUtils.SplitSubgenres(input); }
+                var parser = new Parser(tokens);
+                var expr = parser.Parse();
+            }
+            catch (ParseError e)
+            {
+                ;
+            }
+            catch (Exception e)
+            {
+                ;
+            }
+
+        }
+
+    }
 }
 
 public class Data

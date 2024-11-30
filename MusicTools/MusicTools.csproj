@@ -7,9 +7,9 @@
         <RepositoryUrl>https://github.com/Xythium/MusicTools</RepositoryUrl>
         <Company />
         <LangVersion>preview</LangVersion>
-        <PackageVersion>1.4.8.8</PackageVersion>
-        <AssemblyVersion>1.4.8.8</AssemblyVersion>
-        <FileVersion>1.4.8.8</FileVersion>
+        <PackageVersion>1.5</PackageVersion>
+        <AssemblyVersion>1.5</AssemblyVersion>
+        <FileVersion>1.5</FileVersion>
         <NeutralLanguage>en</NeutralLanguage>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <TargetFrameworks>net481;net7.0</TargetFrameworks>
@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="GraphVizNet" Version="1.0.3" />
       <PackageReference Include="PolySharp" Version="1.12.1">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
