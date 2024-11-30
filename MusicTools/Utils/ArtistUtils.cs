@@ -8,7 +8,7 @@ public static class ArtistUtils
 {
     private const StringComparison COMPARISON_TYPE = StringComparison.OrdinalIgnoreCase;
 
-    private static readonly Regex artistRegex = new Regex(", & | & | x |, | vs. | vs | and | ✘ ", RegexOptions.IgnoreCase);
+    private static readonly Regex artistRegex = new Regex(", & | & | x |, | vs. | vs | and | ✘ | feat. ", RegexOptions.IgnoreCase);
 
     private static readonly HashSet<string> splitExceptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {

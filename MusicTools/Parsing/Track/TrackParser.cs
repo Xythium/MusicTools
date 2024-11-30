@@ -9,14 +9,14 @@ public static class TrackParser
 {
     private static readonly Regex spotifyBad = new Regex("(.+) - ((.+) Remix)", RegexOptions.IgnoreCase);
 
-    //TODO look at these
+    //TODO: look at these
     // (ShockOne Instrumental Mix)
     // Follow You (Fractal Chill Mix) [feat. Danyka Nadeau]
     // Departed (Boy Kid Cloud VIP)
     // Hold Your Breath (Vorso Instrumental Mix)
 
-    private static readonly List<TrackPart> parts = new List<TrackPart>
-    {
+    private static readonly List<TrackPart> parts =
+    [
         new TrackPartStart("feat."), // (feat. XXX)
         new TrackPartStart("prod."), // (prod. XXX)
         new TrackPartEnd("Dub Mix"), // (XXX Dub Mix)
@@ -67,8 +67,8 @@ public static class TrackParser
         new TrackPartEnd("Old School Deconstruction"), // (XXX Old School Deconstruction)
         new TrackPartEnd("Extended Dub"), // (XXX Extended Dub)
         new TrackPartEnd("Dub"), // (XXX Dub)
-        new TrackPartEnd("Instrumental Mix"), // (XXX Instrumental Mix)
-    };
+        new TrackPartEnd("Instrumental Mix") // (XXX Instrumental Mix)
+    ];
 
     private static Dictionary<int, TrackInfo> cache = new Dictionary<int, TrackInfo>();
 
@@ -85,8 +85,8 @@ public static class TrackParser
         var info = new TrackInfo
         {
             Artists = ArtistUtils.SplitArtists(artists),
-            Features = new List<string>(),
-            Remixers = new List<string>(),
+            Features = [],
+            Remixers = [],
 
             OriginalTitle = title,
 
@@ -182,7 +182,10 @@ internal class TrackPartSkip : TrackPart
 {
     private readonly string check;
 
-    public TrackPartSkip(string str) { check = str; }
+    public TrackPartSkip(string str)
+    {
+        check = str;
+    }
 
     internal override bool Process(TrackInfo info, ref int startIndex, ref int endIndex, ref string piece, StringComparison comparisonType)
     {
@@ -200,17 +203,18 @@ internal class TrackPartStart : TrackPart
 {
     private readonly string check;
 
-    public TrackPartStart(string str) { check = str; }
+    public TrackPartStart(string str)
+    {
+        check = str;
+    }
 
     internal override bool Process(TrackInfo info, ref int startIndex, ref int endIndex, ref string piece, StringComparison comparisonType)
     {
         if (startIndex + 1 + check.Length < piece.Length && string.Equals(piece.Substring(startIndex + 1, check.Length), check, comparisonType))
         {
-            var featuresText = piece.Substring(startIndex + check.Length + 1, endIndex - startIndex - check.Length - 1)
-                .Trim();
+            var featuresText = piece.Substring(startIndex + check.Length + 1, endIndex - startIndex - check.Length - 1).Trim();
             info.Features.AddRange(ArtistUtils.SplitArtists(featuresText));
-            piece = piece.Remove(startIndex, endIndex - startIndex + 1)
-                .Trim();
+            piece = piece.Remove(startIndex, endIndex - startIndex + 1).Trim();
             return true;
         }
 
@@ -229,16 +233,14 @@ internal class TrackPartEnd : TrackPart
         this.name = name;
     }
 
-    override internal bool Process(TrackInfo info, ref int startIndex, ref int endIndex, ref string piece, StringComparison comparisonType)
+    internal override bool Process(TrackInfo info, ref int startIndex, ref int endIndex, ref string piece, StringComparison comparisonType)
     {
         if (endIndex - check.Length >= 0 && string.Equals(piece.Substring(endIndex - check.Length, check.Length), check, comparisonType))
         {
-            var remixersText = piece.Substring(startIndex + 1, endIndex - startIndex - check.Length - 1)
-                .Trim();
+            var remixersText = piece.Substring(startIndex + 1, endIndex - startIndex - check.Length - 1).Trim();
             info.Remixers.AddRange(ArtistUtils.SplitArtists(remixersText));
             info.RemixName = name;
-            piece = piece.Remove(startIndex, endIndex - startIndex + 1)
-                .Trim();
+            piece = piece.Remove(startIndex, endIndex - startIndex + 1).Trim();
             return true;
         }
 

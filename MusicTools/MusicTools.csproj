@@ -7,9 +7,9 @@
         <RepositoryUrl>https://github.com/Xythium/MusicTools</RepositoryUrl>
         <Company />
         <LangVersion>preview</LangVersion>
-        <PackageVersion>1.5</PackageVersion>
-        <AssemblyVersion>1.5</AssemblyVersion>
-        <FileVersion>1.5</FileVersion>
+        <PackageVersion>1.5.1</PackageVersion>
+        <AssemblyVersion>1.5.1</AssemblyVersion>
+        <FileVersion>1.5.1</FileVersion>
         <NeutralLanguage>en</NeutralLanguage>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <TargetFrameworks>net481;net7.0</TargetFrameworks>
