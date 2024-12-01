@@ -2,7 +2,7 @@
 
 namespace MusicTools.Parsing.Subgenre;
 
-public interface Visitor
+public interface IVisitor
 {
     string VisitBinary(BinaryExpr binary);
     string VisitGrouping(GroupingExpr grouping);

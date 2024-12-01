@@ -4,7 +4,7 @@ using MusicTools.Parsing.Subgenre.Expressions;
 
 namespace MusicTools.Parsing.Subgenre;
 
-public class Printer : Visitor
+public class Printer : IVisitor
 {
     public string Print(Expr expr)
     {

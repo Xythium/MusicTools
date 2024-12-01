@@ -7,15 +7,20 @@
         <RepositoryUrl>https://github.com/Xythium/MusicTools</RepositoryUrl>
         <Company />
         <LangVersion>preview</LangVersion>
-        <PackageVersion>1.5.1</PackageVersion>
-        <AssemblyVersion>1.5.1</AssemblyVersion>
-        <FileVersion>1.5.1</FileVersion>
+        <PackageVersion>1.5.3</PackageVersion>
+        <AssemblyVersion>1.5.3</AssemblyVersion>
+        <FileVersion>1.5.3</FileVersion>
         <NeutralLanguage>en</NeutralLanguage>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <TargetFrameworks>net481;net7.0</TargetFrameworks>
+        <TargetFrameworks>net7.0;net481;net8.0;net9.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="Parsing\Track\treesitter\tree-sitter-music\bindings\node\" />
+      <Folder Include="Parsing\Track\treesitter\tree-sitter-music\bindings\python\tests\" />
+      <Folder Include="Parsing\Track\treesitter\tree-sitter-music\bindings\python\tree_sitter_music\" />
+      <Folder Include="Parsing\Track\treesitter\tree-sitter-music\bindings\rust\" />
+      <Folder Include="Parsing\Track\treesitter\tree-sitter-music\bindings\swift\TreeSitterMusicTests\" />
       <Folder Include="Properties" />
     </ItemGroup>
 
@@ -25,6 +30,32 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\src\parser.c" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\src\grammar.json" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\setup.py" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\pyproject.toml" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\package.json" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\go.mod" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\bindings\python\tree_sitter_music\py.typed" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\bindings\python\tree_sitter_music\binding.c" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\bindings\python\tree_sitter_music\__init__.pyi" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\bindings\node\index.js" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\bindings\node\index.d.ts" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\bindings\node\binding_test.js" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\bindings\go\binding_test.go" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\bindings\c\tree-sitter-music.pc.in" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\binding.gyp" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\Package.swift" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\Makefile" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\Cargo.toml" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\CMakeLists.txt" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\.gitignore" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\.gitattributes" />
+      <None Remove="Parsing\Track\treesitter\tree-sitter-music\.editorconfig" />
+      <None Remove="Parsing\Track\treesitter\package.json" />
     </ItemGroup>
     
 </Project>

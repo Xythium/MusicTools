@@ -6,7 +6,7 @@ using MusicTools.Parsing.Subgenre.Expressions;
 
 namespace MusicTools.Parsing.Subgenre;
 
-public class GraphImage : Visitor
+public class GraphImage : IVisitor
 {
     public byte[] Graph(Expr expr)
     {

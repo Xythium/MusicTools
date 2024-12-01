@@ -2,5 +2,5 @@
 
 public abstract class Expr
 {
-    public abstract string Accept(Visitor visitor);
+    public abstract string Accept(IVisitor visitor);
 }

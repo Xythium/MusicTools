@@ -17,7 +17,7 @@ public class BinaryExpr : Expr
         Id = counter++;
     }
 
-    public override string Accept(Visitor visitor)
+    public override string Accept(IVisitor visitor)
     {
         return visitor.VisitBinary(this);
     }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
-namespace MusicTools.Parsing.Subgenre;
+namespace MusicTools.Parsing.Track;
 
 public class Scanner(string source)
 {
@@ -34,32 +33,16 @@ public class Scanner(string source)
     private void ScanToken()
     {
         var c = Advance();
-
+        ;
         switch (c)
         {
             case '(': AddToken(TokenType.LeftParen); break;
 
             case ')': AddToken(TokenType.RightParen); break;
 
-            case '~': AddToken(Match('+') ? TokenType.TildePlus : TokenType.Tilde); break;
+            case '[': AddToken(TokenType.LeftBrace); break;
 
-            case '+':
-                if (Match('>'))
-                {
-                    AddToken(TokenType.PlusGreater);
-                    break;
-                }
-
-                if (Match('~'))
-                {
-                    AddToken(TokenType.PlusTilde);
-                    break;
-                }
-
-                AddToken(TokenType.Plus);
-                break;
-
-            case '>': AddToken(Match('+') ? TokenType.GreaterPlus : TokenType.Greater); break;
+            case ']': AddToken(TokenType.RightBrace); break;
 
             case '\n':
                 _line++;
@@ -82,7 +65,20 @@ public class Scanner(string source)
         while (IsName(Peek()))
             Advance();
 
-        AddToken(TokenType.Identifier);
+        var text = source.Substring(_start, _current - _start);
+        if (!Token.Keywords.TryGetValue(text, out var tokenType))
+        {
+            if (text == "Chill")
+            {
+                Advance();
+                Identifier();
+                return;
+            }
+
+            tokenType = TokenType.Identifier;
+        }
+
+        AddToken(tokenType);
     }
 
     private bool Match(char expected)
@@ -123,7 +119,7 @@ public class Scanner(string source)
 
     private bool IsName(char c)
     {
-        return IsAlphaNumeric(c) || c is ' ' or '\u00a0' or '-' or '_' or '&' or '.' or '[' or ']' or '/' or '\'' or '"' or ':' or ','; // todo: make [] a class
+        return IsAlphaNumeric(c) || (c != ' ' && c != '\0' && c!= '(' && c != ')' && c != '[' && c != ']'); //'\u00a0' or '-' or '_' or '&' or '.' or '/' or '\'' or '"' or ':' or ','; // todo: make [] a class
     }
 
     private bool IsDigit(char c)
@@ -138,7 +134,7 @@ public class Scanner(string source)
 
     private bool IsAlphaNumeric(char c)
     {
-        return IsAlpha(c) || IsDigit(c) || (c == '?' && Previous() != '\0');
+        return IsAlpha(c) || IsDigit(c) || c == '"' || c == '&';
     }
 
     private bool IsAtEnd()

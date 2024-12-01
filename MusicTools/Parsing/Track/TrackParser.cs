@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using MusicTools.Utils;
 
 namespace MusicTools.Parsing.Track;
 
-public static class TrackParser
+public static partial class TrackParser
 {
-    private static readonly Regex spotifyBad = new Regex("(.+) - ((.+) Remix)", RegexOptions.IgnoreCase);
+#if NET7_0_OR_GREATER
+    [GeneratedRegex("(.+) - ((.+) Remix)", RegexOptions.IgnoreCase)]
+    private static partial Regex spotifyBad();
+#else
+       private static readonly Regex spotifyBad = new Regex("(.+) - ((.+) Remix)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+#endif
+
 
     //TODO: look at these
     // (ShockOne Instrumental Mix)
@@ -77,10 +84,10 @@ public static class TrackParser
     {
         var key = (artists + title + albumArtists + album).GetHashCode();
 
-        if (cache.TryGetValue(key, out var cached))
+        /*if (cache.TryGetValue(key, out var cached))
         {
             return cached;
-        }
+        }*/
 
         var info = new TrackInfo
         {
@@ -96,7 +103,12 @@ public static class TrackParser
             ScrobbledDate = date
         };
 
+#if NET7_0_OR_GREATER
+        var track = spotifyBad().Replace(title, "$1 ($3 Remix)"); //todo: slow, make this work like it does with brackets
+#else
         var track = spotifyBad.Replace(title, "$1 ($3 Remix)"); //todo: slow, make this work like it does with brackets
+#endif
+
         const StringComparison COMPARISON_TYPE = StringComparison.OrdinalIgnoreCase;
 
         try
@@ -168,11 +180,12 @@ public static class TrackParser
         catch (Exception e)
         {
             Console.WriteLine($"error parsing '{info.OriginalTitle}': {e}");
+            File.AppendAllText("parsing errors.txt", $"{info.OriginalTitle}\n");
         }
 
         info.ProcessedTitle = track.Trim();
 
-        cache.Add(key, info);
+        //cache.Add(key, info);
 
         return info;
     }
