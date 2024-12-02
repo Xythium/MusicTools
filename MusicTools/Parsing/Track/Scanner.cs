@@ -1,15 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace MusicTools.Parsing.Track;
 
-public class Scanner(string source)
+public class Scanner
 {
-    private readonly List<Token> tokens = [];
+    private readonly List<Token> tokens;
+#if NET5_0_OR_GREATER
+    private readonly ReadOnlyMemory<char> sourceSpan;
+    private int _length;
+#else
+    private string source;
+#endif
+
     private int _start = 0;
     private int _current = 0;
     private int _line = 1;
     private int _position = 0;
+
+
+    public Scanner(string source)
+    {
+#if NET5_0_OR_GREATER
+        sourceSpan = source.AsMemory();
+        _length = sourceSpan.Length;
+#else
+        this.source = source;
+#endif
+        tokens = new List<Token>(16);
+    }
 
     public List<Token> ScanTokens()
     {
@@ -65,7 +85,11 @@ public class Scanner(string source)
         while (IsName(Peek()))
             Advance();
 
+#if NET5_0_OR_GREATER
+        var text = sourceSpan.Slice(_start, _position - _start).ToString();
+#else
         var text = source.Substring(_start, _current - _start);
+#endif
         if (!Token.Keywords.TryGetValue(text, out var tokenType))
         {
             if (text == "Chill")
@@ -81,7 +105,7 @@ public class Scanner(string source)
         AddToken(tokenType);
     }
 
-    private bool Match(char expected)
+    /*private bool Match(char expected)
     {
         if (IsAtEnd())
             return false;
@@ -91,76 +115,90 @@ public class Scanner(string source)
 
         _current++;
         return true;
-    }
+    }*/
 
     private char Peek()
     {
         if (IsAtEnd())
             return '\0';
 
+#if NET5_0_OR_GREATER
+        return sourceSpan.Span[_current];
+        //return sourceSpan.Slice(_start, _position - _start).Span[0];
+#else
         return source[_current];
+#endif
     }
 
-    private char PeekNext()
+    /*private char PeekNext()
     {
         if (_current + 1 >= source.Length)
             return '\0';
 
         return source[_current + 1];
-    }
+    }*/
 
-    private char Previous()
+    /*private char Previous()
     {
         if (_current == 0)
             return '\0';
 
         return source[_current - 1];
-    }
+    }*/
 
-    private bool IsName(char c)
+    private static bool IsName(char c)
     {
-        return IsAlphaNumeric(c) || (c != ' ' && c != '\0' && c!= '(' && c != ')' && c != '[' && c != ']'); //'\u00a0' or '-' or '_' or '&' or '.' or '/' or '\'' or '"' or ':' or ','; // todo: make [] a class
+        return IsAlphaNumeric(c) || (c != ' ' && c != '\0' && c != '(' && c != ')' && c != '[' && c != ']'); //'\u00a0' or '-' or '_' or '&' or '.' or '/' or '\'' or '"' or ':' or ','; // todo: make [] a class
     }
 
-    private bool IsDigit(char c)
+    private static bool IsDigit(char c)
     {
         return c is >= '0' and <= '9';
     }
 
-    private bool IsAlpha(char c)
+    private static bool IsAlpha(char c)
     {
         return c is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or 'è' or 'é' or 'ó' or 'ä' or 'ã' or 'ă' or 'ç';
     }
 
-    private bool IsAlphaNumeric(char c)
+    private static bool IsAlphaNumeric(char c)
     {
         return IsAlpha(c) || IsDigit(c) || c == '"' || c == '&';
     }
 
     private bool IsAtEnd()
     {
+#if NET5_0_OR_GREATER
+        return _current >= _length;
+#else
         return _current >= source.Length;
+#endif
     }
 
     private char Advance()
     {
         _position++;
+#if NET5_0_OR_GREATER
+        return sourceSpan.Span[_current++];
+#else
         return source[_current++];
+#endif
     }
 
-    private void AddToken(TokenType type)
+    private void AddToken(TokenType type, string literal = "")
     {
-        AddToken(type, "");
-    }
-
-    private void AddToken(TokenType type, string literal)
-    {
+#if NET5_0_OR_GREATER
+        var text = sourceSpan.Slice(_start, _current - _start).ToString();
+        //var span = source.AsSpan(_start, _current - _start);
+        //var text = span.ToString();
+#else
         var text = source.Substring(_start, _current - _start);
+#endif
         tokens.Add(new Token
         {
             Type = type,
-            Lexeme = text.Trim(),
-            Literal = literal.Trim(),
+            Lexeme = text,
+            Literal = literal,
             Line = _line,
             Position = _position
         });

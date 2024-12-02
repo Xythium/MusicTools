@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
-using MusicTools.Parsing.Subgenre;
-using MusicTools.Parsing.Subgenre.Expressions;
 using MusicTools.Parsing.Track;
 using MusicTools.Parsing.Track.Statements;
-using MusicTools.Utils;
-using Newtonsoft.Json;
-using Parser = MusicTools.Parsing.Track.Parser;
-using Scanner = MusicTools.Parsing.Track.Scanner;
 
 namespace ConsoleApp1
 {
@@ -19,10 +12,13 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            //BenchmarkRunner.Run<Bench>();
+            BenchmarkRunner.Run<Bench>();
 
-            var reconstructor = new Reconstructor();
-            var reconstructed = reconstructor.FromString("Ego Death (feat. Kanye West, FKA twigs, & Skrillex)");
+            /*for (var i = 0; i < 1000; i++)
+            {
+                var reconstructor = new Reconstructor();
+                var reconstructed = reconstructor.FromString("Ego Death (feat. Kanye West, FKA twigs, & Skrillex)");
+            }*/
 
 
             /*var source = "Ambient > (Downtempo + Breakbeat) > Breakbeat Hardcore";
@@ -50,24 +46,27 @@ namespace ConsoleApp1
 
 [SimpleJob(RuntimeMoniker.Net481, baseline: true)]
 [SimpleJob(RuntimeMoniker.Net90)]
-[DisassemblyDiagnoser]
-[MemoryDiagnoser]
+[MemoryDiagnoser(false)]
 public class Bench
 {
     [Benchmark(Baseline = true)]
-    public TrackInfo Old()
+    public TrackInfo SubstringWithRegex()
     {
         return TrackParser.GetTrackInfo("Ty Dolla $ign", "Ego Death (feat. Kanye West, FKA twigs, & Skrillex)", "", "", DateTime.Now);
     }
 
     [Benchmark]
-    public List<Stmt> New()
+    public List<Stmt> Tokenizer()
     {
         var scanner = new Scanner("Ego Death (feat. Kanye West, FKA twigs, & Skrillex)");
-        var tokens = scanner.ScanTokens();
+        var tokens = scanner.ScanTokens().ToArray();
 
+        #if NET5_0_OR_GREATER
+        var parser = new Parser();
+        #else
         var parser = new Parser(tokens);
-        var stmts = parser.Parse();
+        #endif
+        var stmts = parser.Parse(tokens);
         return stmts;
     }
 }

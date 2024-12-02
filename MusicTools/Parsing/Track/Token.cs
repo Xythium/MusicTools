@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace MusicTools.Parsing.Track;
 
-public struct Token
+public readonly struct Token
 {
     public required TokenType Type { get; init; }
 
@@ -54,7 +54,7 @@ public struct Token
     };
 
 #if NET8_0_OR_GREATER // frozen maybe if gets large
-    public static readonly ReadOnlyDictionary<string, TokenType> Keywords = new(keywords);
+    public static readonly FrozenDictionary<string, TokenType> Keywords = keywords.ToFrozenDictionary();
 #else
     public static readonly ReadOnlyDictionary<string, TokenType> Keywords = new(keywords);
 #endif

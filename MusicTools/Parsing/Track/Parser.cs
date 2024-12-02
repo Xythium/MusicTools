@@ -5,18 +5,35 @@ using MusicTools.Parsing.Track.Statements;
 
 namespace MusicTools.Parsing.Track;
 
-public class Parser(List<Token> tokens)
+public class Parser
 {
+#if NET5_0_OR_GREATER
+#else
+    //private Token[] tokens;
+#endif
+
     private int current = 0;
 
-    public List<Stmt> Parse()
+#if NET5_0_OR_GREATER
+#else
+    public Parser(Token[] tokens)
     {
-        var stmts = new List<Stmt>();
+        //this.tokens = tokens;
+    }
+#endif
+
+#if NET5_0_OR_GREATER
+    public List<Stmt> Parse(ReadOnlySpan<Token> tokens)
+#else
+    public List<Stmt> Parse(Token[] tokens)
+#endif
+    {
+        var stmts = new List<Stmt>(tokens.Length);
         try
         {
-            while (!IsAtEnd())
+            while (!IsAtEnd(tokens))
             {
-                var stmt = Statement();
+                var stmt = Statement(tokens);
                 stmts.Add(stmt);
             }
         }
@@ -33,38 +50,46 @@ public class Parser(List<Token> tokens)
         return stmts;
     }
 
-    private Stmt Statement()
+#if NET5_0_OR_GREATER
+    private Stmt Statement(ReadOnlySpan<Token> tokens)
+#else
+    private Stmt Statement(Token[] tokens)
+#endif
     {
-        var expr = Expression();
+        var expr = Expression(tokens);
         return new ExprStmt
         {
             Expression = expr,
         };
     }
 
-    private Expr Expression()
+#if NET5_0_OR_GREATER
+    private Expr Expression(ReadOnlySpan<Token> tokens)
+#else
+    private Expr Expression(Token[] tokens)
+#endif
     {
-        if (Match(TokenType.Featuring, TokenType.FeatDot, TokenType.Feat, TokenType.FtDot, TokenType.Ft))
+        if (Match(tokens, TokenType.Featuring, TokenType.FeatDot, TokenType.Feat, TokenType.FtDot, TokenType.Ft))
         {
             return new FeatExpr
             {
-                Operator = Previous(),
-                Artist = Expression(),
+                Operator = Previous(tokens),
+                Artist = Expression(tokens),
             };
         }
 
-        if (Match(TokenType.Identifier))
+        if (Match(tokens, TokenType.Identifier))
         {
-            var start = Previous();
+            var start = Previous(tokens);
             var text = start.Lexeme;
 
-            while (Check(TokenType.Identifier))
+            while (Check(tokens, TokenType.Identifier))
             {
-                Advance();
-                text += $" {Previous().Lexeme}";
+                Advance(tokens);
+                text += $" {Previous(tokens).Lexeme}";
             }
 
-            if (Match(TokenType.Remix, TokenType.Vip, TokenType.ChillMix))
+            if (Match(tokens, TokenType.Remix, TokenType.Vip, TokenType.ChillMix))
             {
                 return new RemixExpr
                 {
@@ -72,7 +97,7 @@ public class Parser(List<Token> tokens)
                     {
                         Name = text
                     },
-                    Type = Previous().Lexeme,
+                    Type = Previous(tokens).Lexeme,
                 };
             }
 
@@ -82,11 +107,11 @@ public class Parser(List<Token> tokens)
             };
         }
 
-        if (Match(TokenType.LeftParen))
+        if (Match(tokens, TokenType.LeftParen))
         {
-            var expr = Expression();
-            
-            if (Peek().Type == TokenType.LeftBrace)
+            var expr = Expression(tokens);
+
+            if (Peek(tokens).Type == TokenType.LeftBrace)
             {
                 return new GroupingExpr
                 {
@@ -94,32 +119,32 @@ public class Parser(List<Token> tokens)
                 };
             }
 
-            if (Peek().Type == TokenType.Eof)
+            if (Peek(tokens).Type == TokenType.Eof)
             {
                 return new GroupingExpr
                 {
                     Group = expr
                 };
             }
-            
-            Consume("Expect ')' after expression", TokenType.RightParen);
+
+            Consume(tokens, "Expect ')' after expression", TokenType.RightParen);
             return new GroupingExpr
             {
                 Group = expr
             };
         }
 
-        if (Match(TokenType.LeftBrace))
+        if (Match(tokens, TokenType.LeftBrace))
         {
-            var expr = Expression();
-            Consume("Expect '}' after expression", TokenType.RightBrace);
+            var expr = Expression(tokens);
+            Consume(tokens, "Expect '}' after expression", TokenType.RightBrace);
             return new GroupingExpr
             {
                 Group = expr
             };
         }
 
-        throw Error(Peek(), "Expect expression");
+        throw Error(Peek(tokens), "Expect expression");
     }
 
     private Expr Term()
@@ -134,13 +159,17 @@ public class Parser(List<Token> tokens)
         return null;
     }
 
-    private bool Match(params TokenType[] types)
+#if NET5_0_OR_GREATER
+    private bool Match(ReadOnlySpan<Token> tokens, params TokenType[] types)
+#else
+    private bool Match(Token[] tokens, params TokenType[] types)
+#endif
     {
         foreach (var type in types)
         {
-            if (Check(type))
+            if (Check(tokens, type))
             {
-                Advance();
+                Advance(tokens);
                 return true;
             }
         }
@@ -148,49 +177,81 @@ public class Parser(List<Token> tokens)
         return false;
     }
 
-    private Token Consume(string message, params TokenType[] types)
+#if NET5_0_OR_GREATER
+    private Token Consume(ReadOnlySpan<Token> tokens, string message, params TokenType[] types)
+#else
+    private Token Consume(Token[] tokens, string message, params TokenType[] types)
+#endif
     {
         foreach (var type in types)
         {
-            if (Check(type))
+            if (Check(tokens, type))
             {
-                return Advance();
+                return Advance(tokens);
             }
         }
 
-        throw Error(Peek(), message);
+        throw Error(Peek(tokens), message);
     }
 
-
-    private bool Check(TokenType type)
+#if NET5_0_OR_GREATER
+    private bool Check(ReadOnlySpan<Token> tokens, TokenType type)
+#else
+    private bool Check(Token[] tokens, TokenType type)
+#endif
     {
-        if (IsAtEnd())
+        if (IsAtEnd(tokens))
             return false;
 
-        return Peek().Type == type;
+        return Peek(tokens).Type == type;
     }
 
-    private Token Advance()
+#if NET5_0_OR_GREATER
+    private Token Advance(ReadOnlySpan<Token> tokens)
+#else
+    private Token Advance(Token[] tokens)
+#endif
     {
-        if (!IsAtEnd())
+        if (!IsAtEnd(tokens))
             current++;
 
-        return Previous();
+        return Previous(tokens);
     }
 
-    private bool IsAtEnd()
+#if NET5_0_OR_GREATER
+    private bool IsAtEnd(ReadOnlySpan<Token> tokens)
+#else
+    private bool IsAtEnd(Token[] tokens)
+#endif
     {
-        return Peek().Type == TokenType.Eof;
+        return current+1 >= tokens.Length;
+        //return Peek(tokens).Type == TokenType.Eof;
     }
 
-    private Token Peek()
+#if NET5_0_OR_GREATER
+    private Token Peek(ReadOnlySpan<Token> tokens)
+#else
+    private Token Peek(Token[] tokens)
+#endif
     {
+#if NET5_0_OR_GREATER
         return tokens[current];
+#else
+        return tokens[current];
+#endif
     }
 
-    private Token Previous()
+#if NET5_0_OR_GREATER
+    private Token Previous(ReadOnlySpan<Token> tokens)
+#else
+    private Token Previous(Token[] tokens)
+#endif
     {
+#if NET5_0_OR_GREATER
         return tokens[current - 1];
+#else
+        return tokens[current - 1];
+#endif
     }
 
     private ParseError Error(Token token, string message)
