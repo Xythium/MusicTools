@@ -2,30 +2,42 @@
 using System.Collections;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using MusicTools.Parsing.Track;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using VerifyNUnit;
+using VerifyTests;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace MusicToolTests;
 
+[TestFixture]
 public class TrackParserTests
 {
-    [TestCaseSource(typeof(TrackTests), nameof(TrackTests.TestCases))]
-    public string Track(string line)
+    [SetUp]
+    public void Setup()
+    {
+        Token.Keywords.GetType();
+    }
+
+    [Test, TestCaseSource(typeof(TrackTests), nameof(TrackTests.TestCases))]
+    public  Task Track(string line)
     {
         var scanner = new Scanner(line);
-        var tokens = scanner.ScanTokens();
+        var tokens = scanner.ScanTokens().ToArray();
 
-        var parser = new Parser(tokens);
-        var stmts = parser.Parse();
+        var parser = new Parser();
+        var stmts = parser.Parse(tokens);
 
-        Console.WriteLine(JsonConvert.SerializeObject(stmts, Formatting.Indented));
+        //Console.WriteLine(JsonConvert.SerializeObject(stmts, Formatting.Indented));
 
         var reconstructor = new Reconstructor();
         var reconstructed = reconstructor.Reconstruct(stmts);
 
-        return reconstructed;
+        Console.WriteLine(JsonConvert.SerializeObject(reconstructor.TrackInfo, Formatting.Indented));
+
+        return Verifier.Verify(reconstructor.TrackInfo);
     }
 }
 
@@ -35,19 +47,19 @@ public class TrackTests
     {
         get
         {
-            yield return new TestCaseData("DAWN (feat. Totally Enormous Extinct Dinosaur) (Tunnelvisions Remix)").Returns("DAWN (feat. Totally Enormous Extinct Dinosaur) (Tunnelvisions Remix)");
-            yield return new TestCaseData("Follow You (Fractal Chill Mix) [feat. Danyka Nadeau]").Returns("Follow You (feat. Danyka Nadeau) (Fractal Chill Mix)");
-            yield return new TestCaseData("Departed (Boy Kid Cloud VIP)").Returns("Departed (Boy Kid Cloud VIP)");
-            yield return new TestCaseData("Hold Your Breath (Vorso Instrumental Mix)").Returns("Hold Your Breath (Vorso Instrumental Mix)");
-            yield return new TestCaseData("Somewhere in Between (feat. Colleen D'Agostino) [Extended Mix]").Returns("Somewhere in Between (feat. Colleen D'Agostino) (Extended Mix)");
-            yield return new TestCaseData("Limbic (Value of Stimuli)").Returns("Limbic (Value of Stimuli)");
-            yield return new TestCaseData("Lost (Floating) (feat. Astronautalis)").Returns("Lost (Floating) (feat. Astronautalis)");
-            yield return new TestCaseData("Strobe (Club Edit)").Returns("Strobe (Club Edit)");
-            yield return new TestCaseData("Pomegranate (Ninajirachi Extended Remix)").Returns("Pomegranate (Ninajirachi Extended Remix)");
-            yield return new TestCaseData("I Got (Vorso 20:17 Remix)").Returns("I Got (Vorso 20:17 Remix)");
-            yield return new TestCaseData("If There Ever Comes a Day (feat. Eli \"Paperboy\" Reed & Louis Futon [IHF Remix]").Returns("If There Ever Comes a Day (feat. Eli \"Paperboy\" Reed & Louis Futon) (IHF Remix)");
-            yield return new TestCaseData("Remind Me (Someone Else's Radio Remix").Returns("Remind Me (Someone Else's Radio Remix)");
-            yield return new TestCaseData("Cracks (feat. Belle Humble) [Demus Radio Edit]").Returns("Cracks (feat. Belle Humble) (Demus Radio Edit)");
+            yield return new TestCaseData("DAWN (feat. Totally Enormous Extinct Dinosaur) (Tunnelvisions Remix)");
+            yield return new TestCaseData("Follow You (Fractal Chill Mix) [feat. Danyka Nadeau]");
+            yield return new TestCaseData("Departed (Boy Kid Cloud VIP)");
+            yield return new TestCaseData("Hold Your Breath (Vorso Instrumental Mix)");
+            yield return new TestCaseData("Somewhere in Between (feat. Colleen D'Agostino) [Extended Mix]");
+            yield return new TestCaseData("Limbic (Value of Stimuli)");
+            yield return new TestCaseData("Lost (Floating) (feat. Astronautalis)");
+            yield return new TestCaseData("Strobe (Club Edit)");
+            yield return new TestCaseData("Pomegranate (Ninajirachi Extended Remix)");
+            yield return new TestCaseData("I Got (Vorso 20:17 Remix)");
+            yield return new TestCaseData("If There Ever Comes a Day (feat. Eli \"Paperboy\" Reed & Louis Futon [IHF Remix]");
+            yield return new TestCaseData("Remind Me (Someone Else's Radio Remix");
+            yield return new TestCaseData("Cracks (feat. Belle Humble) [Demus Radio Edit]");
         }
     }
 }
