@@ -1,0 +1,9 @@
+﻿{
+  Artists: [
+    BUDD
+  ],
+  OriginalTitle: Triangular (Radio Edit),
+  ProcessedTitle: Triangular (Radio Edit),
+  Album: ,
+  ScrobbledDate: DateTime_1
+}

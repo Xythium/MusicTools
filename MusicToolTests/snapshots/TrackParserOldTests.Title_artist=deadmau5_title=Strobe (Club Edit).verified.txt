@@ -1,0 +1,9 @@
+﻿{
+  Artists: [
+    deadmau5
+  ],
+  OriginalTitle: Strobe (Club Edit),
+  ProcessedTitle: Strobe (Club Edit),
+  Album: ,
+  ScrobbledDate: DateTime_1
+}

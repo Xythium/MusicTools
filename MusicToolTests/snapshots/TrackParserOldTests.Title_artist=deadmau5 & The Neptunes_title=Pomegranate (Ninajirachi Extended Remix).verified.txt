@@ -1,0 +1,14 @@
+﻿{
+  Artists: [
+    deadmau5,
+    The Neptunes
+  ],
+  Remixers: [
+    Ninajirachi
+  ],
+  OriginalTitle: Pomegranate (Ninajirachi Extended Remix),
+  ProcessedTitle: Pomegranate,
+  RemixName: ,
+  Album: ,
+  ScrobbledDate: DateTime_1
+}

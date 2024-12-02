@@ -1,0 +1,13 @@
+﻿{
+  Artists: [
+    Romare
+  ],
+  Remixers: [
+    Karma Fields
+  ],
+  OriginalTitle: All Night (Karma Fields Edit),
+  ProcessedTitle: All Night,
+  RemixName: ,
+  Album: ,
+  ScrobbledDate: DateTime_1
+}

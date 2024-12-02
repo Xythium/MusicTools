@@ -1,0 +1,14 @@
+﻿{
+  Artists: [
+    Ty Dolla $ign
+  ],
+  Features: [
+    Kanye West,
+    FKA twigs,
+    Skrillex
+  ],
+  OriginalTitle: Ego Death (feat. Kanye West, FKA twigs, & Skrillex),
+  ProcessedTitle: Ego Death,
+  Album: ,
+  ScrobbledDate: DateTime_1
+}

@@ -1,0 +1,13 @@
+﻿{
+  Artists: [
+    EDDIE
+  ],
+  Features: [
+    Colleen D'Agostino
+  ],
+  OriginalTitle: Somewhere in Between (feat. Colleen D'Agostino) [Extended Mix],
+  ProcessedTitle: Somewhere in Between,
+  RemixName: ,
+  Album: ,
+  ScrobbledDate: DateTime_1
+}

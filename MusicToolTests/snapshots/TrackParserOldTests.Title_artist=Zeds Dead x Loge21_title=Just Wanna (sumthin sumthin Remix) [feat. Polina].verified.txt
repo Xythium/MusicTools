@@ -1,0 +1,17 @@
+﻿{
+  Artists: [
+    Zeds Dead,
+    Loge21
+  ],
+  Features: [
+    Polina
+  ],
+  Remixers: [
+    sumthin sumthin
+  ],
+  OriginalTitle: Just Wanna (sumthin sumthin Remix) [feat. Polina],
+  ProcessedTitle: Just Wanna,
+  RemixName: ,
+  Album: ,
+  ScrobbledDate: DateTime_1
+}

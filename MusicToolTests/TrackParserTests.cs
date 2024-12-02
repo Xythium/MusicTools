@@ -15,14 +15,19 @@ namespace MusicToolTests;
 [TestFixture]
 public class TrackParserTests
 {
-    [SetUp]
+    private VerifySettings settings;
+
+    [OneTimeSetUp]
     public void Setup()
     {
+        settings = new VerifySettings();
+        settings.UseDirectory("snapshots");
+
         Token.Keywords.GetType();
     }
 
     [Test, TestCaseSource(typeof(TrackTests), nameof(TrackTests.TestCases))]
-    public  Task Track(string line)
+    public Task Track(string line)
     {
         var scanner = new Scanner(line);
         var tokens = scanner.ScanTokens().ToArray();
@@ -37,7 +42,7 @@ public class TrackParserTests
 
         Console.WriteLine(JsonConvert.SerializeObject(reconstructor.TrackInfo, Formatting.Indented));
 
-        return Verifier.Verify(reconstructor.TrackInfo);
+        return Verifier.Verify(reconstructor.TrackInfo, settings);
     }
 }
 
